@@ -50,9 +50,11 @@ function loadPage(page) {
       
       if (page === "home"){
         getTeams();
-      } else if (page === "scorers"){
+      }else if (page === "scorers"){
         getScorers();
-      } else if (page === "saved"){
+      }else if (page === "standings"){
+        getStandings();
+      }else if (page === "saved"){
         getSavedTeams();
       }
 

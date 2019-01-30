@@ -149,6 +149,72 @@ fetchApi(base_url + "scorers")
     .catch(error);
   }
 
+function getStandings() {
+  if("caches" in window) {
+    caches.match(base_url + "standings").then(function(response){
+      if(response) {
+        response.json().then(function(data){
+      // Objek/array JavaScript dari response.json() masuk lewat data.
+      // Menyusun komponen card artikel secara dinamis
+      var standingsHTML = "";
+      data.standings[0].table.forEach(function(standings) {
+        standingsHTML += `
+              <div class="card">
+                <a href="./article.html?id=${standings.team.id}">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img src="${standings.team.crestUrl}" />
+                  </div>
+                </a>
+                <div class="card-content">
+                  <span class="card-title truncate">${standings.team.name}</span>
+                  <p>Position: ${standings.position}</p>
+                  <p>Played Games: ${standings.playedGames}</p>
+                  <p>Won: ${standings.won}</p>
+                  <p>Draw: ${standings.draw}</p>
+                  <p>Lost: ${standings.lost}</p>
+                  <p>Points: ${standings.points}</p>
+                </div>
+              </div>
+            `;
+      });
+      // Sisipkan komponen card ke dalam elemen dengan id #content
+      document.getElementById("standings").innerHTML = standingsHTML;
+    });
+  }
+  });
+}
+
+fetchApi(base_url + "standings")
+.then(status)
+.then(json)
+.then(function(data) {
+  var standingsHTML = "";
+      data.standings[0].table.forEach(function(standings) {
+        standingsHTML += `
+              <div class="card">
+                <a href="./article.html?id=${standings.team.id}">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img src="${standings.team.crestUrl}" />
+                  </div>
+                </a>
+                <div class="card-content">
+                  <span class="card-title truncate">${standings.team.name}</span>
+                  <p>Position: ${standings.position}</p>
+                  <p>Played Games: ${standings.playedGames}</p>
+                  <p>Won: ${standings.won}</p>
+                  <p>Draw: ${standings.draw}</p>
+                  <p>Lost: ${standings.lost}</p>
+                  <p>Points: ${standings.points}</p>
+                </div>
+              </div>
+            `;
+      });
+      // Sisipkan komponen card ke dalam elemen dengan id #content
+      document.getElementById("standings").innerHTML = standingsHTML;
+    })
+    .catch(error);
+  }
+
 // Blok kode untuk melakukan request data json
 // function getArticles() {
 //     fetch(base_url + "articles")
